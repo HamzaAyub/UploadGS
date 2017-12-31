@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "982197194517",
+    "firebase_url": "https://getsub-fe298.firebaseio.com",
+    "project_id": "getsub-fe298",
+    "storage_bucket": "getsub-fe298.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982197194517:android:874bf25fb6170d1a",
+        "android_client_info": {
+          "package_name": "pk.getsub.www.getsub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982197194517-4sqmmv6abn9lbv9k76fmrcq1272edo6g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pk.getsub.www.getsub",
+            "certificate_hash": "392c54188af29c5cde20c1a0326de112107ec180"
+          }
+        },
+        {
+          "client_id": "982197194517-7pmjndb5jb0fvi0hltk29q7845ncag88.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAP3gnk-Uhc9Z3v4JzHDuez0wvCqM_BPxM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982197194517-7pmjndb5jb0fvi0hltk29q7845ncag88.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
