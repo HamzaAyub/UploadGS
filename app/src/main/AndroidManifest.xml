@@ -17,16 +17,14 @@
         android:roundIcon="@mipmap/mylogo_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".checkaddress.CheckAddressActivity" />
         <activity android:name=".splashscreen.SplashScreen" />
         <activity android:name=".map.CallOrderActivity" />
-        <activity android:name=".map.UserProfileDetailActivity" />
+        <activity android:name=".map.UserProfileDetailActivity"></activity>
         <activity android:name=".map.UserProfileUpdateActivity" />
-        <activity android:name=".phoneauth.CustomPhoneAuthActivity">
-
-        </activity>
-        <activity android:name=".retrofit.UserProfileActivity" />
+        <activity android:name=".phoneauth.CustomPhoneAuthActivity"></activity>
+        <activity android:name=".retrofit.UserProfileActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -42,14 +40,13 @@
         <activity
             android:name=".map.OrderMapActivity"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+        <activity android:name=".map.History"></activity>
     </application>
 
 </manifest>

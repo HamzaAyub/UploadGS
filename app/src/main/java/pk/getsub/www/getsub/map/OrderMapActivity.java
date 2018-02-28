@@ -635,6 +635,9 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
         else if(id == R.id.my_profile_menu){
             startActivity(new Intent(OrderMapActivity.this, UserProfileDetailActivity.class));
         }
+        else if(id == R.id.history_menu){
+            startActivity(new Intent(OrderMapActivity.this ,History.class));
+        }
 
         return false;
     }

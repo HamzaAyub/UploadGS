@@ -56,7 +56,11 @@ public class UserProfileDetailActivity extends AppCompatActivity {
         // cz "myImgPath" is not store in UserProfileAcitivity
         SharedPreferences sp = getSharedPreferences("userInfo", MODE_PRIVATE);
         String ss = sp.getString("myImgPath", "mNull");
-        loadImageFromStorage(ss);
+        if(ss.equals("mNull")){
+            return;
+        }else {
+            loadImageFromStorage(ss);
+        }
 
     }
 

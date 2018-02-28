@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,14 +24,25 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
 import pk.getsub.www.getsub.R;
 import pk.getsub.www.getsub.UserSharPrefer;
 import pk.getsub.www.getsub.checkinternet.ConnectionDetector;
+import pk.getsub.www.getsub.map.OrderMapActivity;
+import pk.getsub.www.getsub.map.UserProfileDetailActivity;
+import pk.getsub.www.getsub.retrofit.LaraService;
+import pk.getsub.www.getsub.retrofit.UserPojo;
 import pk.getsub.www.getsub.retrofit.UserProfileActivity;
 import pk.getsub.www.getsub.splashscreen.SplashScreen;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CustomPhoneAuthActivity extends AppCompatActivity {
 
@@ -52,6 +65,10 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
 
     private String phoneNumber;
 
+
+
+    private UserSharPrefer spUser; // test
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -62,6 +79,19 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_phone_auth);
+        
+        spUser = new UserSharPrefer(this);
+        Button btnShowData = findViewById(R.id.btnshowdata);
+        btnShowData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              checkPhoneNumnber("+923328469195");
+            }
+        });
+        
+        
+        
+        
 
         editNumber = (EditText) findViewById(R.id.edit_auth_number);
         editCode = (EditText) findViewById(R.id.edit_auth_code);
@@ -105,6 +135,15 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
                         Log.d(TAG, "onClick:  empty number");
 
                     } else if (isValidMobile(phoneNumber) == true) {
+
+                        /*
+                        String msg = "03328469195";
+                        String myString = msg.substring(1);
+                        myString = "+92" + myString;
+                        * */
+
+                        String finalNumber = phoneNumber.substring(1);
+                        phoneNumber = "+92"+finalNumber;
                         if (phoneNumber.length() == 13) {
                             Log.d(TAG, "onClick: validddd");
 
@@ -266,6 +305,54 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
 
     private boolean isValidMobile(String phone) {
         return android.util.Patterns.PHONE.matcher(phone).matches();
+    }
+    
+    private void checkPhoneNumnber(String number ){
+
+        Gson gson = new GsonBuilder().setLenient().create();  // if there is some syntext error in json array
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://getsub.pk/mlarafolder/laraserver/public/index.php/api/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        LaraService services = retrofit.create(LaraService.class);
+        Call<UserPojo> client = services.getUser(number);
+        client.enqueue(new Callback<UserPojo>() {
+            @Override
+            public void onResponse(Call<UserPojo> call, Response<UserPojo> response) {
+
+
+                Log.d(TAG, "onResponse:" + response);
+                
+                Log.d(TAG, "onResponse: Signup : " + response.message());
+                Log.d(TAG, "onResponse:" + response.body().getId());
+
+                int myId = response.body().getId();
+
+                spUser.setUserId(myId);
+                spUser.setName(response.body().getName());
+                spUser.setUserPhone(response.body().getPhone());
+                spUser.setUserAddress(response.body().getAddress());
+
+                startActivity(new Intent(CustomPhoneAuthActivity.this , UserProfileDetailActivity.class));
+
+
+
+                //   startActivity(new Intent(UserProfileActivity.this, FrontPageActivity.class));
+
+          //      startActivity(new Intent(UserProfileActivity.this, OrderMapActivity.class));
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<UserPojo> call, Throwable t) {
+                Log.d(TAG, "onFailure:" + t);
+                showMessage("Some Connection Error");
+            }
+        });
+        
     }
 
 }

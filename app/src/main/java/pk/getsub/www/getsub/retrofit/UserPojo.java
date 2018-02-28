@@ -40,6 +40,14 @@ public class UserPojo {
         this.image = image;
     }
 
+    public UserPojo(int id, String name, String address, String phone ) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.id = id;
+
+    }
+
     public Integer getId() {
         return id;
     }
